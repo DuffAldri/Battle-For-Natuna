@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private Score score;
 	private int areaWidth;
 	private int areaHeight;
-	private int radius = 50;
+	private int radius = 27;
 	boolean isHold;
 	
 	public GamePanel(int width, int height) {
@@ -35,20 +35,20 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		int y = height - 2 * radius;
 		this.isHold = false;
 		
-		player = new Player(x, y, radius, Color.BLUE);
+		player = new Player(x, y, Color.BLUE);
 		box = new BallArea(0,0, width, height, Color.BLACK, Color.WHITE);
 		score = new Score();
 		
-		this.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				Component c = (Component) e.getSource();
-				Dimension dim = c.getSize();
-				areaWidth = dim.width;
-				areaHeight = dim.height;
-				box.set(0, 0, width, height);
-			}
-		});
+//		this.addComponentListener(new ComponentAdapter() {
+//			@Override
+//			public void componentResized(ComponentEvent e) {
+//				Component c = (Component) e.getSource();
+//				Dimension dim = c.getSize();
+//				areaWidth = dim.width;
+//				areaHeight = dim.height;
+//				box.set(0, 0, width, height);
+//			}
+//		});
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.setFocusable(true);
@@ -84,6 +84,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 										bulletList.remove(i);
 										System.out.println("Enemy Hit");
 										flag = true;
+										score.addValue();
 									}
 								}	
 							}
@@ -91,7 +92,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 						}
 						
 					if(randTimer == time) {
-						enemyList.add(new Enemy(radius, Color.red));
+						enemyList.add(new Enemy(areaWidth, Color.red));
 						time = 0;
 						randTimer = rand.nextInt(30 + 1) + 10;
 						
@@ -129,7 +130,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void mousePressed(MouseEvent e) {
 //		// TODO Auto-generated method stub
-		int x = e.getX();
+		int x = e.getX() - 2;
 		int y = e.getY();
 //		
 //		if (mouseX > ball.x - radius && mouseX < ball.x + radius &&

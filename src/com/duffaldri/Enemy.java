@@ -10,21 +10,21 @@ public class Enemy {
 	int speed;
 	boolean hit;
 	
-	public Enemy(int radius, Color color) {
+	public Enemy(int panelWidth, Color color) {
 		Random rand = new Random();
-		this.x = rand.nextInt((1080 - 30));
-		this.y = 0 - 60;
+		this.x = rand.nextInt(panelWidth/20) * 20 + 20;
+		this.y = 0 - 96;
 		this.speed = rand.nextInt(3 - 1 + 1) + 1;
 		
-		this.width = 40;
-		this.height = 90;
+		this.width = 27;
+		this.height = 96;
 		this.color = color;
 		this.hit = false;
 	}
 	
 	public void draw (Graphics g) {
 		g.setColor(color);
-		g.fillRect(x, y, 40, 90);
+		g.drawRect(x, y, width, height);
 	}
 	
 	public void move() {

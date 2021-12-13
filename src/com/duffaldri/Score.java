@@ -12,7 +12,7 @@ public class Score {
 	public Score() {
 		font = new Font("Verdana", Font.BOLD, 20);
 		this.value = 0;
-		text = "Score = 0 || Klik bola untuk menambah skor!";
+		this.text = "Score = ";
 	}
 	
 	public int getValue() {
@@ -22,11 +22,12 @@ public class Score {
 	public void draw (Graphics g) {
 		g.setFont(font);
 		g.setColor(Color.WHITE);
-		g.drawString(text, 5, 25);
+		g.drawString(text + value, 5, 25);
 	}
 	
 	public void addValue() {
 		this.value++;
+		System.out.println("Score  " + this.value);
 	}
 
 	public String getText() {

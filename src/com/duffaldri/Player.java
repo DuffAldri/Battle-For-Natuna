@@ -3,20 +3,21 @@ package com.duffaldri;
 import java.awt.*;
 
 public class Player {
-	float x, y;
-	float radius;
+	int x, y;
+	int width, height;
 	private Color color;
 	
-	public Player(float x, float y, float radius, Color color) {
+	public Player(int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
-		this.radius = radius;
+		this.width = 27;
+		this.height = 96;
 		this.color = color;
 	}
 	
 	public void draw (Graphics g) {
 		g.setColor(color);
-		g.fillOval((int) (x - radius), (int) (y - radius), (int) (2 * radius), (int) (2 * radius));
+		g.drawRect(x - width/2, y - height/2, width, height);
 	}
 	
 //	public void collide (BallArea box) {
