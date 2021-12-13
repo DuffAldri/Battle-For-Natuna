@@ -6,6 +6,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,14 +20,18 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private static final long serialVersionUID = 1L;
 	private static final int REFRESH_RATE = 30;
 	private Player player;
-	private BallArea box;
+	private Background box;
 	ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
 	ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 	private Score score;
+	private HealthPoint hp;
 	private int areaWidth;
 	private int areaHeight;
 	private int radius = 27;
 	boolean isHold;
+	Robot robot;
+	JLabel bgLabel;
+	URL bgUrl;
 	
 	public GamePanel(int width, int height) {
 		this.areaWidth = width;
@@ -34,10 +40,27 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		int x = width/2 + radius/2;
 		int y = height - 2 * radius;
 		this.isHold = false;
-		
 		player = new Player(x, y, Color.BLUE);
-		box = new BallArea(0,0, width, height, Color.BLACK, Color.WHITE);
+		box = new Background(0,0, width, height, Color.BLACK);
 		score = new Score();
+		hp = new HealthPoint();
+		
+		bgUrl = Background.class.getResource("/resouce/bg-laut.gif");
+		bgLabel = new JLabel(new ImageIcon (bgUrl));
+
+		try {
+			this.robot = new Robot();
+			robot.mouseMove(x, y);
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		this.setCursor(this.getToolkit().createCustomCursor(
+                   new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
+                   new Point(),
+                   null ) );
 		
 //		this.addComponentListener(new ComponentAdapter() {
 //			@Override
@@ -103,6 +126,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 						e.move();
 						if(e.y > areaHeight) {
 							enemyList.remove(i);
+							hp.decreaseHP(20);
 							System.out.println("Enemy removed");
 						}						
 					}	
@@ -174,7 +198,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		super.paintComponent(g);
 		box.draw(g);
 		player.draw(g);
-		score.draw(g);
 		
 		for(Bullet b : bulletList) {
 			b.draw(g);
@@ -183,6 +206,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		for(Enemy e : enemyList) {
 			e.draw(g);
 		}
+		
+		hp.draw(g);
+		score.draw(g);
 	}
 
 	@Override
