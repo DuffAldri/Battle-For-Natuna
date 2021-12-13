@@ -8,24 +8,23 @@ import java.io.IOException;
 
 import javax.imageio.*;
 
-public class Enemy {
-	int x, y;
-	int width, height;
-	private Color color;
+public class Enemy extends CharSprite {
 	int speed;
 	boolean hit;
-	BufferedImage image;
+	int shootTimer;
 	
 	public Enemy(int panelWidth, Color color) {
+		super(color);
 		Random rand = new Random();
 		this.x = rand.nextInt((panelWidth - 40)/30) * 30 + 10;
 		this.y = 0 - 96;
 		this.speed = rand.nextInt(3 - 1 + 1) + 1;
 		
-		this.width = 27;
-		this.height = 96;
-		this.color = color;
+		this.minX = x;
+		this.minY = y;
+		
 		this.hit = false;
+		this.shootTimer = 0;
 		
 		 try {                
 	          image = ImageIO.read(new File("resource/KapalEnemy.png"));
@@ -44,17 +43,8 @@ public class Enemy {
 	
 	public void move() {
 		this.y += speed;
+		this.minY = this.y;
 	}
 	
-	public void collide (Bullet bullet) {
-		int enemyMinX = this.x;
-		int enemyMinY = this.y + height;
-		int enemyMaxX = this.x + width;
-		
-		if (((bullet.x > enemyMinX && bullet.x < enemyMaxX) 
-				|| (bullet.x + bullet.width > enemyMinX && bullet.x + bullet.width < enemyMaxX)) 
-				&& (bullet.y <= enemyMinY)) {
-			hit = true;
-		} 
-	}
+
 }

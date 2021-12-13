@@ -7,20 +7,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Player {
-	int x, y;
-	int width, height;
+public class Player extends CharSprite {
 	int hp;
-	private Color color;
-	BufferedImage image;
 	
 	public Player(int x, int y, Color color) {
+		super(color);
 		this.x = x;
 		this.y = y;
-		this.width = 27;
-		this.height = 96;
-		this.color = color;
 		this.hp = 100;
+		
+		this.minX = x - width/2;
+		this.minY = y - height/2;
 		
 		try {                
 	          image = ImageIO.read(new File("resource/Kapal.png"));
@@ -32,8 +29,8 @@ public class Player {
 	
 	public void draw (Graphics g) {
 		g.setColor(color);
-		g.drawRect(x - width/2, y - height/2, width, height);
-		g.drawImage(image, x - width/2, y - height/2, width, height, null);
+		g.drawRect(minX, minY, width, height);
+		g.drawImage(image, minX, minY, width, height, null);
 	}
 	
 //	public void collide (BallArea box) {

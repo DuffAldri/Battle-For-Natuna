@@ -13,7 +13,7 @@ public class Background {
 	int maxX;
 	int minY;
 	int maxY;
-	int x, y;
+	float x, y;
 	private Color colorFilled;
 	BufferedImage image;
 	
@@ -23,17 +23,20 @@ public class Background {
 		this.minY = y;
 		this.maxX = x + width - 1;
 		this.maxY = y + height -1;
-		this.y = this.minY;
+		this.y = this.minY - 600;
 		
 		try {                
-		     image = ImageIO.read(new File("resource/bg-laut.gif"));
+		     image = ImageIO.read(new File("resource/bg-laut.png"));
 		} catch (IOException ex) {
 		       // handle exception...
 		}
 	}
 	
 	public void moveBG() {
-		this.y++;
+		this.y += 0.5;
+		if(this.y == 0) {
+			this.y = this.minY - 600;
+		}
 	}
 	
 //	public void set(int x, int y, int width, int height) {
@@ -46,6 +49,6 @@ public class Background {
 	public void draw(Graphics g) {
 		g.setColor(colorFilled);
 		g.fillRect(minX, minY, maxX - minX -1 , maxY - minY -1);
-		g.drawImage(image, 0, 0, null);
+		g.drawImage(image, 0, (int) y, null);
 	}
 }

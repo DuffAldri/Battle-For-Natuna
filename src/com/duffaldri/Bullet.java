@@ -7,10 +7,9 @@ public class Bullet {
 	int x, y;
 	int speed;
 	int width, height;
-	private Color color;
+	Color color;
 	
-	public Bullet(int x, int y, int radius, int speed) {
-		this.color = Color.red;
+	public Bullet(int x, int y, int speed) {
 		this.speed = speed;
 		this.x = x;
 		this.y = y;
@@ -18,6 +17,9 @@ public class Bullet {
 		this.height = 15;
 	}
 	
+	public void setColor (Color color) {
+		this.color = color;
+	}
 	public void draw (Graphics g) {
 		g.setColor(color);
 		g.fillRect(x, y, width, height);

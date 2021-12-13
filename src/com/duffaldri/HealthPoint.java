@@ -27,6 +27,7 @@ public class HealthPoint {
 	
 	public void increaseHP(int value) {
 		this.value += value;
+		if(this.value > 100) this.value = 100;
 	}
 	
 	public void decreaseHP(int value) {

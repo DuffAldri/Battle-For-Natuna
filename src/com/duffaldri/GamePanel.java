@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,9 +19,12 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private static final long serialVersionUID = 1L;
 	private static final int REFRESH_RATE = 30;
 	private Player player;
-	private Background box;
-	ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
+	private Background bg;
+	ArrayList<PlayerBullet> playerBulletList = new ArrayList<PlayerBullet>();
+	ArrayList<EnemyBullet> enemyBulletList = new ArrayList<EnemyBullet>();
 	ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+	int[] level = new int[]{5, 10, 15};
+	private int enemyCounter;
 	private Score score;
 	private HealthPoint hp;
 	private int areaWidth;
@@ -30,8 +32,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private int radius = 27;
 	boolean isHold;
 	Robot robot;
-	JLabel bgLabel;
-	URL bgUrl;
 	
 	public GamePanel(int width, int height) {
 		this.areaWidth = width;
@@ -41,12 +41,9 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		int y = height - 2 * radius;
 		this.isHold = false;
 		player = new Player(x, y, Color.BLUE);
-		box = new Background(0,0, width, height, Color.BLACK);
+		bg = new Background(0,0, width, height, Color.BLACK);
 		score = new Score();
 		hp = new HealthPoint();
-		
-		bgUrl = Background.class.getResource("/resouce/bg-laut.gif");
-		bgLabel = new JLabel(new ImageIcon (bgUrl));
 
 		try {
 			this.robot = new Robot();
@@ -88,52 +85,74 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 				while (true) {
 //					ball.move(box);
 //					try {
-						for(int i = 0; i < bulletList.size(); i++) {
-							boolean flag = false;
-							System.out.println("Checking bullet. Bullet: " + i);
-							Bullet b = bulletList.get(i);
-							b.move();
-							if(b.y + 40 < 0) {
-								bulletList.remove(i);
-								System.out.println("Bullet removed");
-							}
-							else {
-								for(int j = 0; j < enemyList.size() && flag == false; j++) {
-									System.out.println("Checking hit");
-									Enemy e = enemyList.get(j);
-									e.collide(bulletList.get(i));
-									if(e.hit) {
-										enemyList.remove(j);
-										bulletList.remove(i);
-										System.out.println("Enemy Hit");
-										flag = true;
-										score.addValue();
-									}
-								}	
-							}
-							
+					for(int i = 0; i < playerBulletList.size(); i++) {
+						boolean flag = false;
+						System.out.println("Checking bullet. Bullet: " + i);
+						Bullet b = playerBulletList.get(i);
+						if(b.y + 40 < 0) {
+							playerBulletList.remove(i);
+							System.out.println("Bullet removed");
 						}
+						else {
+							for(int j = 0; j < enemyList.size() && flag == false; j++) {
+								System.out.println("Checking hit");
+								Enemy e = enemyList.get(j);
+								
+								if(e.bulletHit(playerBulletList.get(i))) {
+									enemyList.remove(j);
+									playerBulletList.remove(i);
+									System.out.println("Enemy Hit");
+									flag = true;
+									score.addValue();
+									enemyCounter--;
+									hp.increaseHP(2);
+								}
+							}	
+						}
+						b.move();
 						
-					if(randTimer == time) {
+					}			
+				
+					bg.moveBG();
+						
+					if(time >= randTimer && enemyCounter < level[0]) {
 						enemyList.add(new Enemy(areaWidth, Color.red));
 						time = 0;
 						randTimer = rand.nextInt(30 + 1) + 10;
-						
+						enemyCounter++;
 					}
 						
 					for(int i = 0; i < enemyList.size(); i++) {
 						Enemy e = enemyList.get(i);
 						e.move();
+						e.shootTimer++;
 						if(e.y > areaHeight) {
 							enemyList.remove(i);
 							hp.decreaseHP(20);
 							System.out.println("Enemy removed");
-						}						
+							enemyCounter--;
+						}		
+						if(e.shootTimer >= 70) {
+							enemyBulletList.add(new EnemyBullet(e.x + e.width/2 - 2, e.y + e.height/2 , -15));
+							e.shootTimer = 0;
+						}
 					}	
 					
-//					catch(Exception e) {
-//						System.err.println("Terjadi exception collide dengan ball lain");						
-//					}
+					for(int i = 0; i < enemyBulletList.size(); i++) {
+						Bullet b = enemyBulletList.get(i);
+						System.out.println(enemyBulletList.size());
+						if(b.y > areaHeight) {
+							enemyBulletList.remove(i);
+							System.out.println("Enemy bullet removed");
+						}
+						System.out.println(enemyBulletList.size());
+						if(player.bulletHit(b)) {
+							hp.decreaseHP(10);
+							enemyBulletList.remove(i);
+						}
+						b.move();
+					}
+					
 					repaint();
 					time++;
 					try {
@@ -170,7 +189,7 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 
 		this.isHold = true;
 		
-		this.bulletList.add(new Bullet(x, y, this.radius, 25));
+		this.playerBulletList.add(new PlayerBullet(x, y, 25));
 		
 		
 	}
@@ -196,10 +215,14 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		box.draw(g);
+		bg.draw(g);
 		player.draw(g);
 		
-		for(Bullet b : bulletList) {
+		for(Bullet b : playerBulletList) {
+			b.draw(g);
+		}
+		
+		for(Bullet b : enemyBulletList) {
 			b.draw(g);
 		}
 		
@@ -219,6 +242,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		player.x = x;
 		player.y = y;
+		player.minX = x - player.width/2;
+		player.minY = y - player.height/2;
 			
 		System.out.println(x + " " + y);
 	}
@@ -229,9 +254,11 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		int x = e.getX();
 		int y = e.getY();
 		
-			player.x = x;
-			player.y = y;
-			
-			System.out.println(x + " " + y);
+		player.x = x;
+		player.y = y;
+		player.minX = x - player.width/2;
+		player.minY = y - player.height/2;
+		
+		System.out.println(x + " " + y);
 	}
 }

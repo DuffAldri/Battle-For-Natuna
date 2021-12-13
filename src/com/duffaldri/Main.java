@@ -13,12 +13,10 @@ public class Main {
 
 			@Override
 			public void run() {
-				GamePanel panel = new GamePanel(1200, 600);
 				// TODO Auto-generated method stub
 				JFrame frame = new JFrame("Battle For Natuna");
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setContentPane(panel);
-			    frame.getContentPane().add(panel.bgLabel);
+				frame.setContentPane(new GamePanel(1200, 600));
 				frame.pack();
 				frame.setVisible(true);
 				frame.setResizable(false);
