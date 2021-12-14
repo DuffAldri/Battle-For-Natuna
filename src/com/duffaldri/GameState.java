@@ -33,7 +33,9 @@ public class GameState extends State {
 	private HealthPoint hp;
 	boolean isHold;
 	
-	public GameState() {
+	public GameState(StateManager sm) {
+		this.sm = sm;
+		
 		int x = areaWidth/2 + 27/2;
 		int y = areaHeight/2 + 27/2;
 		
@@ -203,8 +205,6 @@ public class GameState extends State {
 		this.isHold = true;
 		
 		this.playerBulletList.add(new PlayerBullet(x, y, 25));
-		
-		
 		
 	}
 

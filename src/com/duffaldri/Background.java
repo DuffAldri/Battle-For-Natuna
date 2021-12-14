@@ -48,7 +48,7 @@ public class Background {
 	
 	public void draw(Graphics g) {
 		g.setColor(colorFilled);
-		g.fillRect(minX, minY, maxX - minX -1 , maxY - minY -1);
+//		g.fillRect(minX, minY, maxX - minX -1 , maxY - minY -1);
 		g.drawImage(image, 0, (int) y, null);
 	}
 }
