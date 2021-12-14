@@ -1,5 +1,8 @@
 package com.duffaldri;
 
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+
 public class StateManager {
 	public State[] stateList;
 	
@@ -10,7 +13,8 @@ public class StateManager {
 	
 	public StateManager() {
 		stateList = new State[TOTALSTATES];
-		currentState = MENU;
+		currentState = GAME;
+		loadState(currentState);
 	}
 	
 	public void loadState(int state) {
@@ -31,5 +35,47 @@ public class StateManager {
 		unloadState(currentState);
 		loadState(nextState);
 		currentState = nextState;
+	}
+	
+	public void update() {
+		stateList[currentState].update();
+	}
+	
+	public void draw(Graphics g) {
+		stateList[currentState].draw(g);
+	}
+	
+	public void mouseDragged(MouseEvent e) {
+		stateList[currentState].mouseDragged(e);
+		
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		stateList[currentState].mouseMoved(e);
+	}
+
+	
+	public void mouseClicked(MouseEvent e) {
+		stateList[currentState].mouseClicked(e);
+	}
+
+	
+	public void mousePressed(MouseEvent e) {
+		stateList[currentState].mousePressed(e);
+	}
+
+	
+	public void mouseReleased(MouseEvent e) {
+		stateList[currentState].mouseReleased(e);
+	}
+
+	
+	public void mouseEntered(MouseEvent e) {
+		stateList[currentState].mouseEntered(e);
+	}
+
+	
+	public void mouseExited(MouseEvent e) {
+		stateList[currentState].mouseExited(e);
 	}
 }
