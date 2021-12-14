@@ -34,10 +34,10 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		
 		sm = new StateManager();
 		
-		this.setCursor(this.getToolkit().createCustomCursor(
-                   new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
-                   new Point(),
-                   null ) );
+//		this.setCursor(this.getToolkit().createCustomCursor(
+//                   new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
+//                   new Point(),
+//                   null ) );
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);

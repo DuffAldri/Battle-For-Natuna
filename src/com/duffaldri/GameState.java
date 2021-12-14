@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameState extends State implements MouseListener, MouseMotionListener {
+public class GameState extends State {
 
 	
 	private Player player;
@@ -172,8 +172,6 @@ public class GameState extends State implements MouseListener, MouseMotionListen
 		player.y = y;
 		player.minX = x - player.width/2;
 		player.minY = y - player.height/2;
-			
-		System.out.println(x + " " + y);
 		
 	}
 
@@ -187,8 +185,6 @@ public class GameState extends State implements MouseListener, MouseMotionListen
 		player.y = y;
 		player.minX = x - player.width/2;
 		player.minY = y - player.height/2;
-		
-		System.out.println(x + " " + y);
 		
 	}
 
@@ -228,7 +224,6 @@ public class GameState extends State implements MouseListener, MouseMotionListen
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	

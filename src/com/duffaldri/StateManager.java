@@ -13,7 +13,7 @@ public class StateManager {
 	
 	public StateManager() {
 		stateList = new State[TOTALSTATES];
-		currentState = GAME;
+		currentState = MENU;
 		loadState(currentState);
 	}
 	
