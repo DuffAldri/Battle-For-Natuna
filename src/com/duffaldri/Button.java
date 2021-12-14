@@ -28,6 +28,14 @@ public class Button {
 		}
 	}
 	
+	public void setImage(BufferedImage image, int x, int y, int width, int height) {
+		this.x = x;
+		this.y = y;
+		this.image = image;
+		this.height = height;
+		this.width = width;
+	}
+	
 	public void draw(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);
 	}

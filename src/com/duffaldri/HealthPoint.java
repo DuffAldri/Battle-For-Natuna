@@ -32,6 +32,7 @@ public class HealthPoint {
 	
 	public void decreaseHP(int value) {
 		this.value -= value;
+		if(this.value < 0) this.value = 0;
 	}
 
 	public String getText() {

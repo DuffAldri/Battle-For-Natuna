@@ -32,8 +32,13 @@ public class StateManager {
 	}
 	
 	public void setState(int nextState) {
-		loadState(nextState);
-		unloadState(currentState);
+		if(this.currentState == nextState) {
+			unloadState(currentState);
+			loadState(nextState);			
+		} else {
+			loadState(nextState);
+			unloadState(currentState);
+		}
 		this.currentState = nextState;
 	}
 	

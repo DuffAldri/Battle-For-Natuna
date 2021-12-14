@@ -14,9 +14,7 @@ import javax.swing.JButton;
 
 public class MenuState extends State {
 	private Background bg;
-	private int currentState;
 	private BufferedImage 	logo,
-							setting,
 							play;
 	private ArrayList<Button> buttonList = new ArrayList<Button>();
 //	private JButton playButton,
@@ -25,7 +23,6 @@ public class MenuState extends State {
 	
 	public MenuState(StateManager sm) {
 		this.sm = sm;
-		this.currentState = 0;
 		
 		bg = new Background(0, 0, areaWidth * 2, areaHeight, Color.BLACK);
 		try {
