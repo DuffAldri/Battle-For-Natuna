@@ -1,7 +1,6 @@
 package com.duffaldri;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.io.File;
 import java.io.IOException;
@@ -36,8 +35,9 @@ public class Enemy extends CharSprite {
 	}
 	
 	public void draw (Graphics g) {
-		g.setColor(color);
-		g.drawRect(x, y, width, height);
+//		g.setColor(color);
+//		g.drawRect(x, y, width, height);
+		
 		g.drawImage(image, x, y, width, height, null);
 	}
 	

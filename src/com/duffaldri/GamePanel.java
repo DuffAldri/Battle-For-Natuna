@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -38,6 +40,13 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 //                   new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
 //                   new Point(),
 //                   null ) );
+		try {
+		     GraphicsEnvironment ge = 
+		         GraphicsEnvironment.getLocalGraphicsEnvironment();
+		     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("resource/font/Minecraft.ttf")));
+		} catch (IOException|FontFormatException e) {
+		     //Handle exception
+		}
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);

@@ -4,7 +4,9 @@ import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.MouseEvent;
@@ -138,11 +140,21 @@ public class GameState extends State {
 					hp.decreaseHP(20);
 					System.out.println("Enemy removed");
 					enemyCounter--;
-				}		
+				}	
+				
+				if(player.collide(e)) {
+					enemyList.remove(i);
+					hp.decreaseHP(10);
+					explosionList.add(new Explosion(e.x + e.width/2, e.y + e.height/2));
+					System.out.println("Collide with enemy");
+					enemyCounter--;
+				}	
+				
 				if(e.shootTimer >= 70) {
 					enemyBulletList.add(new EnemyBullet(e.x + e.width/2 - 2, e.y + e.height/2 , -15));
 					e.shootTimer = 0;
 				}
+				
 			}	
 			
 			for(int i = 0; i < enemyBulletList.size(); i++) {
@@ -185,13 +197,17 @@ public class GameState extends State {
 			e.draw(g);
 		}
 		
-		for(Explosion e: explosionList) {
-			e.draw(g);
-		}
+
 		
-		if(!isLose) homeButton.draw(g);
-		hp.draw(g);
-		score.draw(g);
+		if(!isLose) {
+			homeButton.draw(g);
+			for(Explosion e: explosionList) {
+				e.draw(g);
+			}
+
+			hp.draw(g);
+			score.draw(g);
+		}
 		
 		if(isLose) {
 			Color c = new Color(0, 0, 0, 230);

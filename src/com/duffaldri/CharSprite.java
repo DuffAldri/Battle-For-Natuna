@@ -29,5 +29,7 @@ public class CharSprite {
 			return(true);
 		} return(false);
 	}
+	
+	
 }
 
