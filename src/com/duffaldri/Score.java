@@ -10,7 +10,7 @@ public class Score {
 	Font font;
 	
 	public Score() {
-		font = new Font("Verdana", Font.BOLD, 20);
+		font = new Font("Minecraft", Font.BOLD, 20);
 		this.value = 0;
 		this.text = "Score = ";
 	}
@@ -22,7 +22,7 @@ public class Score {
 	public void draw (Graphics g) {
 		g.setFont(font);
 		g.setColor(Color.WHITE);
-		g.drawString(text + value, 5, 25);
+		g.drawString(text + value, 5, 60);
 	}
 	
 	public void addValue() {

@@ -45,6 +45,7 @@ public class GameState extends State {
 	
 	int[] level = new int[]{5, 10, 15};
 	private int enemyCounter;
+	private Highscore highscore;
 	private Score score;
 	private HealthPoint hp;
 	boolean isHold;
@@ -59,9 +60,9 @@ public class GameState extends State {
 		
 		player = new Player(x, y, Color.BLUE);
 		bg = new Background(0,0, areaWidth, areaHeight, Color.BLACK);
+		highscore = new Highscore();
 		score = new Score();
 		hp = new HealthPoint();	
-		
 		
 		try {
 			home = ImageIO.read(new File("resource/home.png"));
@@ -233,6 +234,7 @@ public class GameState extends State {
 				n.draw(g);
 			}
 			
+			highscore.draw(g);
 			hp.draw(g);
 			score.draw(g);
 		}

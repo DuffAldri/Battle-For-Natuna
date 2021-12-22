@@ -4,15 +4,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-public class HealthPoint {
+public class Highscore {
 	int value;
 	String text;
 	Font font;
 	
-	public HealthPoint() {
+	public Highscore() {
 		font = new Font("Minecraft", Font.BOLD, 20);
-		this.value = 100;
-		this.text = "HP = ";
+		this.value = 0;
+		this.text = "Highscore = ";
 	}
 	
 	public int getValue() {
@@ -22,16 +22,12 @@ public class HealthPoint {
 	public void draw (Graphics g) {
 		g.setFont(font);
 		g.setColor(Color.WHITE);
-		g.drawString(text + value, 5, 95);
+		g.drawString(text + value, 5, 25);
 	}
 	
-	public void increaseHP(int value) {
-		this.value += value;
-		if(this.value > 100) this.value = 100;
-	}
-	
-	public void decreaseHP(int value) {
-		this.value -= value;
+	public void addValue() {
+		this.value++;
+		System.out.println("Score  " + this.value);
 	}
 
 	public String getText() {
