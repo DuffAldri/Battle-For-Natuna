@@ -12,17 +12,18 @@ public class CharSprite {
 	int minX;
 	int minY;
 	
+	Audio wave;
+	
 	public CharSprite(Color color) {
 		this.width = 27;
 		this.height = 96;
 		this.color = color;
+		
+		this.wave = new Audio("wave-2.wav");
+		wave.play();
 	}
 	
-	public boolean bulletHit (Bullet bullet) {
-//		int MinX = this.x;
-//		int MinY = this.y + height;
-//		int MaxX = this.x + width;
-		
+	public boolean bulletHit (Bullet bullet) {		
 		if (((bullet.x > minX && bullet.x < minX + width) 
 				|| (bullet.x + bullet.width > minX && bullet.x + bullet.width < minX + width)) 
 				&& (bullet.y >= minY && bullet.y <= minY + height)) {

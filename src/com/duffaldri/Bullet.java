@@ -9,12 +9,16 @@ public class Bullet {
 	int width, height;
 	Color color;
 	
+	Audio sfx;
+	
 	public Bullet(int x, int y, int speed) {
 		this.speed = speed;
 		this.x = x;
 		this.y = y;
 		this.width = 6;
 		this.height = 15;
+		sfx = new Audio("shoot-2.wav");
+		sfx.play();
 	}
 	
 	public void setColor (Color color) {

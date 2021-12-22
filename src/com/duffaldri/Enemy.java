@@ -32,12 +32,11 @@ public class Enemy extends CharSprite {
 	            // handle exception...
 		 }
 		 
-		 
 	}
 	
 	public void draw (Graphics g) {
-		g.setColor(color);
-		g.drawRect(x, y, width, height);
+//		g.setColor(color);
+//		g.drawRect(x, y, width, height);
 		g.drawImage(image, x, y, width, height, null);
 	}
 	

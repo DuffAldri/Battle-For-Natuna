@@ -14,11 +14,16 @@ public class Explosion {
 	BufferedImage[] image;
 	int counter;
 	
+	Audio sfx;
+	
 	public Explosion (int x, int y) {
 		this.x = x;
 		this.y = y;
 		image = new BufferedImage[7];
 		counter = 0;
+		
+		sfx = new Audio("explosion.wav");
+		sfx.play();
 		
 		for(int i = 0; i < 7; i++) {
 			try {                

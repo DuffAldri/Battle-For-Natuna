@@ -7,23 +7,26 @@ public class StateManager {
 	public State[] stateList;
 	
 	public int currentState;
-	public int MENU = 0;
-	public int GAME = 1;
-	public int TOTALSTATES = 2;
+	public static final int MENU = 0;
+	public static final int GAME = 1;
+	public static final int TOTALSTATES = 2;
+	
+	private int highscore;
 	
 	public StateManager() {
 		stateList = new State[TOTALSTATES];
 		currentState = MENU;
+		this.highscore = 0;
 		loadState(currentState);
 	}
 	
 	public void loadState(int state) {
 		if(state == MENU) {
-			stateList[state] = new MenuState();
+			stateList[state] = new MenuState(this);
 		}
 		
 		if(state == GAME) {
-			stateList[state] = new GameState();
+			stateList[state] = new GameState(this);
 		}
 	}
 	
@@ -32,9 +35,14 @@ public class StateManager {
 	}
 	
 	public void setState(int nextState) {
-		unloadState(currentState);
-		loadState(nextState);
-		currentState = nextState;
+		if(this.currentState == nextState) {
+			unloadState(currentState);
+			loadState(nextState);			
+		} else {
+			loadState(nextState);
+			unloadState(currentState);
+		}
+		this.currentState = nextState;
 	}
 	
 	public void update() {
@@ -43,6 +51,10 @@ public class StateManager {
 	
 	public void draw(Graphics g) {
 		stateList[currentState].draw(g);
+	}
+	
+	public int getHighscore() {
+		return this.highscore;
 	}
 	
 	public void mouseDragged(MouseEvent e) {
