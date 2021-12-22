@@ -1,6 +1,7 @@
 package com.duffaldri;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -51,6 +52,10 @@ public class MenuState extends State {
 		for(Button b : buttonList) {
 			b.draw(g);
 		}
+		Font font = new Font("Minecraft", Font.PLAIN, 30);
+		g.setColor(Color.WHITE);
+		g.setFont(font);
+		g.drawString("Highscore " + sm.getHighscore(), areaWidth/2 - 80, 500);
 	}
 
 	@Override

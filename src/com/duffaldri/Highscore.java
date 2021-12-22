@@ -9,13 +9,17 @@ public class Highscore {
 	String text;
 	Font font;
 	
-	public Highscore() {
+	public Highscore(int value) {
 		font = new Font("Minecraft", Font.BOLD, 20);
-		this.value = 0;
+		this.value = value;
 		this.text = "Highscore = ";
 	}
 	
-	public int getValue() {
+	public void setHighscore(int v) {
+		if(v > this.value) this.value = v;
+	}
+	
+	public int getHighscore() {
 		return value;
 	}
 

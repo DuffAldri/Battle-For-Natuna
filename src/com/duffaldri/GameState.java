@@ -48,6 +48,7 @@ public class GameState extends State {
 	private Highscore highscore;
 	private Score score;
 	private HealthPoint hp;
+	private int prevHighscore;
 	boolean isHold;
 	
 	
@@ -60,9 +61,10 @@ public class GameState extends State {
 		
 		player = new Player(x, y, Color.BLUE);
 		bg = new Background(0,0, areaWidth, areaHeight, Color.BLACK);
-		highscore = new Highscore();
+		highscore = new Highscore(sm.getHighscore());
 		score = new Score();
 		hp = new HealthPoint();	
+		this.prevHighscore = highscore.getHighscore();
 		
 		try {
 			home = ImageIO.read(new File("resource/home.png"));
@@ -84,7 +86,7 @@ public class GameState extends State {
 		}
 		
 		sfxInit();
-		replayButton = new Button(replay, areaWidth/2 - 50, areaHeight/2 + 20, 100, 100, 0);
+		replayButton = new Button(replay, areaWidth/2 - 50, areaHeight/2 + 60, 100, 100, 0);
 	}
 	
 	public void update() {
@@ -186,11 +188,13 @@ public class GameState extends State {
 			}
 	
 			time++;
-			if(hp.getValue() == 0) {
+			highscore.setHighscore(score.getValue());
+			if(hp.getValue() <= 0) {
 				this.isLose = true;
 				bgMusic.stop();
 				Audio lose = new Audio("lose.wav");
 				lose.play();
+				sm.setHighscore(highscore.getHighscore());
 			}
 		} 
 		
@@ -247,7 +251,10 @@ public class GameState extends State {
 			g.drawImage(gameOver, areaWidth/2 - 597/2, 100, 597, 103, null);
 			g.setColor(Color.WHITE);
 			g.setFont(font);
-			g.drawString("Final score " + score.getValue(), areaWidth/2 - 100, 250);
+			g.drawString("Highscore " + highscore.getHighscore(), areaWidth/2 - 90, 260);
+			g.drawString("Final score " + score.getValue(), areaWidth/2 - 100, 310);
+			if(highscore.getHighscore() > prevHighscore)
+				g.drawString("New Highscore!", areaWidth/2 - 110, 80);
 			replayButton.draw(g);
 		}
 	}

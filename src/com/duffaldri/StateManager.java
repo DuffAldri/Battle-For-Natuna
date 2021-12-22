@@ -73,6 +73,9 @@ public class StateManager {
 		stateList[currentState].draw(g);
 	}
 	
+	public void setHighscore(int v) {
+		this.highscore = v;
+	}
 	public int getHighscore() {
 		return this.highscore;
 	}
