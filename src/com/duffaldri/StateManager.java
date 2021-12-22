@@ -1,7 +1,12 @@
 package com.duffaldri;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class StateManager {
 	public State[] stateList;
@@ -18,6 +23,21 @@ public class StateManager {
 		currentState = MENU;
 		this.highscore = 0;
 		loadState(currentState);
+		
+		try {
+			File fontFile = new File("resource/font/Minecraft.ttf");
+			Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+			GraphicsEnvironment ge = GraphicsEnvironment
+			        .getLocalGraphicsEnvironment();
+
+			ge.registerFont(font);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void loadState(int state) {

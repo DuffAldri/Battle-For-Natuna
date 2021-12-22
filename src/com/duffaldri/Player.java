@@ -28,34 +28,18 @@ public class Player extends CharSprite {
 	
 	
 	public void draw (Graphics g) {
-		g.setColor(color);
-		g.drawRect(minX, minY, width, height);
+//		g.setColor(color);
+//		g.drawRect(minX, minY, width, height);
 		g.drawImage(image, minX, minY, width, height, null);
 	}
 	
-//	public void collide (BallArea box) {
-//		float ballMinX = box.minX + radius;
-//		float ballMinY = box.minY + radius;
-//		float ballMaxX = box.maxX - radius;
-//		float ballMaxY = box.maxY - radius;
-//		
-//		x += speedX;
-//		y += speedY;
-//		
-//		if (x < ballMinX) {
-//			speedX = -speedX;
-//			x = ballMinX;
-//		} else if (x > ballMaxX) {
-//			speedX = -speedX;
-//			x = ballMaxX;
-//		}
-//		
-//		if (y < ballMinY) {
-//			speedY = -speedY;
-//			y = ballMinY;
-//		} else if (y > ballMaxY) {
-//			speedY = - speedY;
-//			y = ballMaxY;
-//		}
-//	}
+	public boolean collide(Enemy enemy) {
+		
+		if (((enemy.x > minX && enemy.x < minX + width) 
+					|| (enemy.x + enemy.width > minX && enemy.x + enemy.width < minX + width)) 
+				&& ((enemy.y >= minY && enemy.y <= minY + height) 
+					|| (enemy.y + enemy.height > minY && enemy.y + enemy.height < minY + height))) {
+			return(true);
+		} return(false);
+	}
 }
