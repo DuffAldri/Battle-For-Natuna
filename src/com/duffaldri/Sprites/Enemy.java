@@ -1,7 +1,6 @@
-package com.duffaldri;
+package com.duffaldri.Sprites;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +11,7 @@ public class Enemy extends CharSprite {
 	int speed;
 	boolean hit;
 	int shootTimer;
-	
+
 	public Enemy(int panelWidth, Color color) {
 		super(color);
 		Random rand = new Random();
@@ -45,5 +44,23 @@ public class Enemy extends CharSprite {
 		this.minY = this.y;
 	}
 	
+	public int getSpeed() {
+		return speed;
+	}
 
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public int getShootTimer() {
+		return shootTimer;
+	}
+
+	public void setShootTimer(int shootTimer) {
+		this.shootTimer = shootTimer;
+	}
+	
+	public void incrementShootTimer() {
+		this.shootTimer++;
+	}
 }

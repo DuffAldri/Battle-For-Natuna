@@ -1,4 +1,4 @@
-package com.duffaldri;
+package com.duffaldri.Sprites;
 
 import java.awt.Color;
 

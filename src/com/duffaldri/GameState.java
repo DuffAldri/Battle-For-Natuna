@@ -2,16 +2,10 @@ package com.duffaldri;
 
 import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,8 +14,20 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-public class GameState extends State {
+import com.duffaldri.Audio.Audio;
+import com.duffaldri.Sprites.Bullet;
+import com.duffaldri.Sprites.Button;
+import com.duffaldri.Sprites.Enemy;
+import com.duffaldri.Sprites.EnemyBullet;
+import com.duffaldri.Sprites.Explosion;
+import com.duffaldri.Sprites.Player;
+import com.duffaldri.Sprites.PlayerBullet;
 
+public class GameState implements State {
+	StateManager sm;
+	public int areaWidth = 1200;
+	public int areaHeight = 600;
+	
 	private Player player;
 	private Background bg;
 	private Robot robot;
@@ -43,7 +49,8 @@ public class GameState extends State {
 	ArrayList<Explosion> explosionList = new ArrayList<Explosion>();
 	ArrayList<Notification> notifList = new ArrayList<Notification>();
 	
-	int[] level = new int[]{5, 10, 15};
+	int[] level = new int[]{5, 7, 10, 12, 15, 18, 21};
+	int currLevel;
 	private int enemyCounter;
 	private Highscore highscore;
 	private Score score;
@@ -55,6 +62,7 @@ public class GameState extends State {
 	public GameState(StateManager sm) {
 		this.sm = sm;
 		this.isLose = false;
+		this.currLevel = 0;
 		
 		int x = areaWidth/2 + 27/2;
 		int y = areaHeight/2 + 27/2;
@@ -95,7 +103,7 @@ public class GameState extends State {
 //			ball.move(box);
 //			try {
 			for(int i = 0; i < explosionList.size(); i++) {
-				if(explosionList.get(i).counter >= 7)
+				if(explosionList.get(i).getCounter() >= 7)
 					explosionList.remove(i);
 			}
 			
@@ -108,7 +116,7 @@ public class GameState extends State {
 				boolean flag = false;
 				System.out.println("Checking bullet. Bullet: " + i);
 				Bullet b = playerBulletList.get(i);
-				if(b.y + 40 < 0) {
+				if(b.getY() + 40 < 0) {
 					playerBulletList.remove(i);
 					System.out.println("Bullet removed");
 				}
@@ -118,7 +126,7 @@ public class GameState extends State {
 						Enemy e = enemyList.get(j);
 						
 						if(e.bulletHit(playerBulletList.get(i))) {
-							explosionList.add(new Explosion(e.x + e.width/2, e.y + e.height/2));
+							explosionList.add(new Explosion(e.getX() + e.getWidth()/2, e.getY() + e.getHeight()/2));
 							enemyList.remove(j);
 							playerBulletList.remove(i);
 							System.out.println("Enemy Hit");
@@ -126,7 +134,7 @@ public class GameState extends State {
 							score.addValue();
 							enemyCounter--;
 							hp.increaseHP(2);					
-							notifList.add(new Notification(player.minX, player.minY, 2));
+							notifList.add(new Notification(player.getMinX(), player.getMinY(), 2));
 						}
 					}	
 				}
@@ -136,21 +144,21 @@ public class GameState extends State {
 		
 			bg.moveBG();
 				
-			if(time >= randTimer && enemyCounter < level[0]) {
+			if(time >= randTimer && enemyCounter < level[currLevel]) {
 				enemyList.add(new Enemy(areaWidth, Color.red));
 				time = 0;
-				randTimer = rand.nextInt(30 + 1) + 10;
+				randTimer = rand.nextInt(25 + 1) + 5;
 				enemyCounter++;
 			}
 				
 			for(int i = 0; i < enemyList.size(); i++) {
 				Enemy e = enemyList.get(i);
 				e.move();
-				e.shootTimer++;
-				if(e.y > areaHeight) {
+				e.incrementShootTimer();
+				if(e.getY() > areaHeight) {
 					enemyList.remove(i);
 					hp.decreaseHP(20);
-					notifList.add(new Notification(player.minX, player.minY, -20));
+					notifList.add(new Notification(player.getMinX(), player.getMinY(), -20));
 					System.out.println("Enemy removed");
 					enemyCounter--;
 				}	
@@ -158,15 +166,15 @@ public class GameState extends State {
 				if(player.collide(e)) {
 					enemyList.remove(i);
 					hp.decreaseHP(10);
-					notifList.add(new Notification(player.minX, player.minY, -10));
-					explosionList.add(new Explosion(e.x + e.width/2, e.y + e.height/2));
+					notifList.add(new Notification(player.getMinX(), player.getMinY(), -10));
+					explosionList.add(new Explosion(e.getX() + e.getWidth()/2, e.getY() + e.getHeight()/2));
 					System.out.println("Collide with enemy");
 					enemyCounter--;
 				}	
 				
-				if(e.shootTimer >= 70) {
-					enemyBulletList.add(new EnemyBullet(e.x + e.width/2 - 2, e.y + e.height/2 , -15));
-					e.shootTimer = 0;
+				if(e.getShootTimer() >= 70) {
+					enemyBulletList.add(new EnemyBullet(e.getX() + e.getWidth()/2 - 2, e.getY() + e.getHeight()/2 , -15));
+					e.setShootTimer(0);
 				}
 				
 			}	
@@ -174,19 +182,21 @@ public class GameState extends State {
 			for(int i = 0; i < enemyBulletList.size(); i++) {
 				Bullet b = enemyBulletList.get(i);
 				System.out.println(enemyBulletList.size());
-				if(b.y > areaHeight) {
+				if(b.getY() > areaHeight) {
 					enemyBulletList.remove(i);
 					System.out.println("Enemy bullet removed");
 				}
 				System.out.println(enemyBulletList.size());
 				if(player.bulletHit(b)) {
 					hp.decreaseHP(10);
-					notifList.add(new Notification(player.minX, player.minY, -10));
+					notifList.add(new Notification(player.getMinX(), player.getMinY(), -10));
 					if(enemyBulletList.get(i) != null) enemyBulletList.remove(i);
 				}
 				b.move();
 			}
-	
+			
+			if(score.getValue() >= currLevel * 30 + 30 && currLevel < 7) currLevel++;
+			
 			time++;
 			highscore.setHighscore(score.getValue());
 			if(hp.getValue() <= 0) {
@@ -264,10 +274,10 @@ public class GameState extends State {
 		if (!isLose) {
 			int x = e.getX();
 			int y = e.getY();
-			player.x = x;
-			player.y = y;
-			player.minX = x - player.width / 2;
-			player.minY = y - player.height / 2;
+			player.setX(x);
+			player.setY(y);
+			player.setMinX(x - player.getWidth() / 2);
+			player.setMinY(y - player.getHeight() / 2);
 		}
 		
 	}
@@ -278,10 +288,10 @@ public class GameState extends State {
 			// TODO Auto-generated method stub
 			int x = e.getX();
 			int y = e.getY();
-			player.x = x;
-			player.y = y;
-			player.minX = x - player.width / 2;
-			player.minY = y - player.height / 2;
+			player.setX(x);
+			player.setY(y);
+			player.setMinX(x - player.getWidth() / 2);
+			player.setMinY(y - player.getHeight() / 2);
 		}
 		
 	}

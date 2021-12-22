@@ -11,7 +11,14 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-public class MenuState extends State {
+import com.duffaldri.Audio.Audio;
+import com.duffaldri.Sprites.Button;
+
+public class MenuState implements State {
+	StateManager sm;
+	public int areaWidth = 1200;
+	public int areaHeight = 600;
+	
 	private Background bg;
 	private BufferedImage 	logo,
 							play;
@@ -78,5 +85,41 @@ public class MenuState extends State {
 			
 		}
 				
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

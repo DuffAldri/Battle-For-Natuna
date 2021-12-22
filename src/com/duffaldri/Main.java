@@ -1,7 +1,5 @@
 package com.duffaldri;
 
-import java.awt.Point;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

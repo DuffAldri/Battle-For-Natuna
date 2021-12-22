@@ -1,14 +1,9 @@
 package com.duffaldri;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Random;
 
 import javax.swing.*;
 
@@ -20,7 +15,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	private static final long serialVersionUID = 1L;
 	private int areaWidth;
 	private int areaHeight;
-	private int radius = 27;
 	Robot robot;
 	
 	private StateManager sm;
@@ -29,8 +23,8 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 		this.areaWidth = width;
 		this.areaHeight = height;
 		this.setPreferredSize(new Dimension(areaWidth, areaHeight));
-		int x = width/2 + radius/2;
-		int y = height - 2 * radius;
+//		int x = width/2 + radius/2;
+//		int y = height - 2 * radius;
 		
 		sm = new StateManager();
 		
@@ -46,7 +40,6 @@ public class GamePanel extends JPanel implements MouseListener, MouseMotionListe
 	}
 	
 	public void startThread() {
-		// TODO Auto-generated method stub
 		Thread gameThread = new Thread() {
 			public void run() {
 				while(true) {

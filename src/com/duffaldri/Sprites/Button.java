@@ -1,13 +1,10 @@
-package com.duffaldri;
+package com.duffaldri.Sprites;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.swing.JButton;
+import com.duffaldri.StateManager;
+import com.duffaldri.Audio.Audio;
 
 public class Button {
 	BufferedImage image;

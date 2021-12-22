@@ -1,7 +1,6 @@
-package com.duffaldri;
+package com.duffaldri.Sprites;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -25,7 +24,6 @@ public class Player extends CharSprite {
 	            // handle exception...
 		}
 	}
-	
 	
 	public void draw (Graphics g) {
 //		g.setColor(color);
